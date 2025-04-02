@@ -1,6 +1,6 @@
 # Treadmill
 
-**⚠️ Warning:** BLDC driver that supports 6 poles is preferred.
+**⚠️ Warning:** BLDC driver that supports 6 poles is preferred for this motor.
 
 ## Summary
 

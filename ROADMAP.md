@@ -20,3 +20,7 @@
 ## 🎮 Pilot control (reuse)
 
 ## 📱  Bluetooth (HomeAssistant?)
+
+## Other
+
+⬜ Should BLDC be configured as 10 pole instead of 8?
