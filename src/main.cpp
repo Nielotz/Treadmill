@@ -1,4 +1,5 @@
-#include "pico/stdlib.h"
+#include <pico/stdio.h>
+
 #include "config.hpp"
 
 
@@ -10,9 +11,9 @@ int main() {
 
     while (true) {
         // Blink the LED on and off every second
-        config::BuiltinLed::setHigh();
+        config::BuiltInLed.setState(0);
         sleep_ms(1000);
-        config::BuiltinLed::setLow();
+        config::BuiltInLed.setState(1);
         sleep_ms(1000);
     }
  

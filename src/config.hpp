@@ -14,5 +14,5 @@ inline void init() {
 }
 
     
-using BuiltinLed = gpio::Gpio<CYW43_WL_GPIO_LED_PIN, gpio::Direction::OUTPUT>;
-} // namespace treadmill_hack::config
+inline gpio::BuiltInLed BuiltInLed = gpio::BuiltInLed<CYW43_WL_GPIO_LED_PIN, gpio::Direction::OUTPUT>();
+} // namespace treadmill_hack::config 
