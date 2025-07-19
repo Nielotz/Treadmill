@@ -11,4 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Pio, Gpio, BuiltInLed
+- Basic GPIO test running on linux
+  - 🟩 Compiles on linux
+  - ⬜️ Runs any test
+  - ⬜️ Runs GPIO test
+- Basic main testing GPIO on pico2w
+  - ⬜️ Compiles for pico2w
+  - ⬜️ Flashes to pico2w
+  - ⬜️ Passes manual GPIO check

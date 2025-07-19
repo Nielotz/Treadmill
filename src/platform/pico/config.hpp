@@ -10,7 +10,7 @@ enum class Status {
 };
 
 inline void init() {
-    assert(cyw43_arch_init() == 0);  // Initialize the CYW43 driver to control led
+    assert();  // Initialize the CYW43 driver to control led
 }
 
     

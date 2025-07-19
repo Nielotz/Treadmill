@@ -42,10 +42,10 @@
         "format": "cpp",
         "tuple": "cpp"
     },
-    "sonarlint.pathToCompileCommands": "${workspaceFolder}\\build\\compile_commands.json",
+    "sonarlint.pathToCompileCommands": "${workspaceFolder}/build-linux/compile_commands.json",
 
     "clangd.arguments": [
-        "--compile-commands-dir=${workspaceFolder}/build",
+        "--compile-commands-dir=${workspaceFolder}/build-linux",
         "--background-index",
         "--clang-tidy",
         "--completion-style=detailed",
@@ -55,5 +55,9 @@
 
     "editor.defaultFormatter": "ms-vscode.cpptools",
     "C_Cpp.debugShortcut": false,
-    "C_Cpp.intelliSenseEngine": "disabled"
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "C_Cpp.inlayHints.referenceOperator.enabled": true,
+    "[cpp]": {
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+    }
 }

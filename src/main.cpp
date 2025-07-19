@@ -1,20 +1,12 @@
-#include <pico/stdio.h>
+#include "platform/platform.hpp"
 
-#include "config.hpp"
-
-
-using namespace treadmill_hack;
+using namespace treadmill_hack::platform::config;
 
 int main() {
-    stdio_init_all();
-    config::init();  
-
     while (true) {
-        // Blink the LED on and off every second
-        config::BuiltInLed.setState(0);
-        sleep_ms(1000);
-        config::BuiltInLed.setState(1);
-        sleep_ms(1000);
+        BuiltinLed::setHigh();
+        BuiltinLed::setHigh();
+        BuiltinLed::setHigh();
     }
  
     return 0;
