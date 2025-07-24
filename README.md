@@ -54,4 +54,4 @@ This repository is an attempt to integrate BLDC (BLDH400R) with existing treadmi
 *Requires poles to match :c </br>
 Maybe we get speed from hals?
 
-### uC: ESP8266 by NodeMcu V3
+### uC: RPI Pico 2W
