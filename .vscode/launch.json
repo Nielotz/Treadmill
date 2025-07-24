@@ -70,7 +70,7 @@
             "name": "Test: Linux Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build-linux/TreadmillHack",
+            "program": "${workspaceFolder}/build-linux/all_tests",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build-linux",
@@ -86,6 +86,6 @@
                 }
             ],
             "preLaunchTask": "Test: Linux: compile"
-        }
+        },
     ]
 }

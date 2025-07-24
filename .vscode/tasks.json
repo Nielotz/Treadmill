@@ -66,7 +66,7 @@
                 ".",
                 "-B",
                 "build-linux",
-                "-DPLATFORM=linux-test"
+                "-DPLATFORM=linux_test"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -104,12 +104,12 @@
             "command": "cmake",
             "args": [
                 "--build",
-                ".",
+                "build-linux",
                 "--target",
                 "clean"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/build-linux"
+                "cwd": "${workspaceFolder}"
             },
             "group": "build",
             "presentation": {
@@ -117,6 +117,16 @@
                 "panel": "dedicated"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Test: Linux: run all tests",
+            "type": "shell",
+            "command": "${workspaceFolder}/build-linux/all_tests",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "dependsOn": "Test: Linux: compile"
         }
     ]
 }

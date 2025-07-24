@@ -1,6 +1,6 @@
-# Generated Cmake Pico project file
-
 cmake_minimum_required(VERSION 3.13)
+
+project(TreadmillHack CXX)
 
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_C_STANDARD 23)
@@ -8,8 +8,8 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Check which platform we're building for
-set(PLATFORM "pico2w" CACHE STRING "Build platform: pico2w or linux-test")
-set_property(CACHE PLATFORM PROPERTY STRINGS "pico2w" "linux-test")
+set(PLATFORM "pico2w" CACHE STRING "Build platform: pico2w or linux_test")
+set_property(CACHE PLATFORM PROPERTY STRINGS "pico2w" "linux_test")
 
 if(PLATFORM STREQUAL "pico2w")
     # Pico-specific configuration
@@ -65,19 +65,33 @@ if(PLATFORM STREQUAL "pico2w")
     target_compile_definitions(TreadmillHack PRIVATE PLATFORM_PICO)
 
     pico_add_extra_outputs(TreadmillHack)
-elseif(PLATFORM STREQUAL "linux-test")
+elseif(PLATFORM STREQUAL "linux_test")
     # Linux-specific configuration
-    project(TreadmillHack CXX)
 
-    # Add executable for Linux
-    add_executable(TreadmillHack src/main.cpp)
+    # Try to find system Catch2 first
+    find_package(Catch2 3 QUIET)
 
-    # Set platform define for Linux test
-    target_compile_definitions(TreadmillHack PRIVATE PLATFORM_LINUX_TEST)
+    if(NOT Catch2_FOUND)
+        include(FetchContent)
+        FetchContent_Declare(
+            Catch2
+            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+            GIT_TAG        v3.9.0
+        )
+        FetchContent_MakeAvailable(Catch2)
+    endif()
+
+    add_executable(all_tests
+        test/simple_io_test.cpp
+        # test/another_test.cpp
+    )
+    target_compile_definitions(all_tests PRIVATE PLATFORM_LINUX_TEST)
+    target_include_directories(all_tests PRIVATE src)
+    target_link_libraries(all_tests PRIVATE Catch2::Catch2WithMain)
 endif()
 
 # Add the standard include files to the build (common for both targets)
-target_include_directories(TreadmillHack PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+target_include_directories(all_tests PRIVATE
+    ${CMAKE_CURRENT_LIST_DIR}
 )
 
