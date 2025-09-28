@@ -71,11 +71,8 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build-linux/all_tests",
-            "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build-linux",
-            "environment": [],
-            "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [
@@ -86,6 +83,6 @@
                 }
             ],
             "preLaunchTask": "Test: Linux: compile"
-        },
+        }
     ]
 }

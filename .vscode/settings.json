@@ -44,20 +44,36 @@
     },
     "sonarlint.pathToCompileCommands": "${workspaceFolder}/build-linux/compile_commands.json",
 
+    "clangd.path": "/usr/bin/clangd-21",
     "clangd.arguments": [
         "--compile-commands-dir=${workspaceFolder}/build-linux",
         "--background-index",
         "--clang-tidy",
         "--completion-style=detailed",
         "--header-insertion=iwyu",
-        "--query-driver=*",
+        "--query-driver=/usr/bin/clang,/usr/bin/clang++,/usr/bin/clang-*,/usr/bin/clang++-*,/usr/lib/llvm-*/bin/clang,/usr/lib/llvm-*/bin/clang++,/usr/bin/g++,/usr/bin/c++,/usr/bin/x86_64-linux-gnu-g++-*",
+        "--log=verbose",
     ],
-
+    "clangd.fallbackFlags": [
+        "-std=gnu++23",
+        "-I${workspaceFolder}/src",
+        "-I${workspaceFolder}/src/api",
+        "-I${workspaceFolder}/src/platform/linux_test",
+        "-I${workspaceFolder}/src/platform/pico"
+    ],
     "editor.defaultFormatter": "ms-vscode.cpptools",
     "C_Cpp.debugShortcut": false,
     "C_Cpp.intelliSenseEngine": "disabled",
     "C_Cpp.inlayHints.referenceOperator.enabled": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
     "[cpp]": {
-        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
     }
 }

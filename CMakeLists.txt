@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Check which platform we're building for
-set(PLATFORM "pico2w" CACHE STRING "Build platform: pico2w or linux_test")
+set(PLATFORM "linux_test" CACHE STRING "Build platform: pico2w or linux_test")
 set_property(CACHE PLATFORM PROPERTY STRINGS "pico2w" "linux_test")
 
 if(PLATFORM STREQUAL "pico2w")
@@ -74,6 +74,10 @@ elseif(PLATFORM STREQUAL "linux_test")
     )
     target_compile_definitions(all_tests PRIVATE PLATFORM_LINUX_TEST)
 
+    target_include_directories(all_tests PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/platform/linux_test
+        ${CMAKE_SOURCE_DIR}/src
+    )
 
     # Prefer a locally cached/vendor'ed Catch2, otherwise fetch into a persistent folder
     set(CATCH2_LOCAL_DIR "${CMAKE_SOURCE_DIR}/third_party/Catch2" CACHE PATH "Path to local Catch2 source")

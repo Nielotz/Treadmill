@@ -58,6 +58,26 @@
             }
         },
         {
+            "label": "Test: Linux: clean",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "build-linux",
+                "--target",
+                "clean"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Test: Linux: configure",
             "type": "shell",
             "command": "cmake",
@@ -99,34 +119,17 @@
             "dependsOn": "Test: Linux: configure"
         },
         {
-            "label": "Test: Linux: clean",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "--build",
-                "build-linux",
-                "--target",
-                "clean"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": "build",
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Test: Linux: run all tests",
+            "label": "Test: Linux: run tests",
             "type": "shell",
             "command": "${workspaceFolder}/build-linux/all_tests",
             "presentation": {
                 "reveal": "always",
                 "panel": "dedicated"
             },
-            "dependsOn": "Test: Linux: compile"
+            "dependsOn": "Test: Linux: compile",
+            "problemMatcher": [
+                "$gcc"
+            ]
         }
     ]
 }

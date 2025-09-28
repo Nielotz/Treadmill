@@ -1,37 +1,40 @@
 #pragma once
 
-#include <cstdint>
 #include <iostream>
 
-namespace treadmill_hack::platform::linux_test::gpio {
+#include "api/gpio.hpp"
 
-enum class Direction { INVALID, INPUT, OUTPUT, INPUT_OUTPUT, DISABLED };
+namespace treadmill_hack {
 
-template <uint16_t pin, Direction direction> class Gpio {
-public:
-  constexpr Gpio() {
-    if constexpr (direction == Direction::DISABLED) {
-      return;
+namespace platform::linux_test::gpio {
+
+template <api::gpio::Pin pin, api::gpio::Direction direction, typename Type, bool enabled = true>
+class SimulatedGpio : api::gpio::Gpio<pin, direction, Type, enabled> {
+    inline static Type value;
+
+  public:
+    SimulatedGpio() = delete;
+
+    static Type getValue() {
+        static_assert(enabled, "GPIO pin is disabled.");
+        using enum api::gpio::Direction;
+        static_assert(direction == OUTPUT || direction == INPUT_OUTPUT, "GPIO pin is disabled.");
+
+        std::cout << "[linux_test] Read GPIO " << pin << " -> " << SimulatedGpio::value << std::endl;
+        return SimulatedGpio::value;
     }
-    if constexpr (direction == Direction::INPUT) {
-      std::cout << "Configuring GPIO pin " << pin << " as INPUT." << std::endl;
-    } else if constexpr (direction == Direction::INPUT_OUTPUT) {
-      std::cout << "Configuring GPIO pin " << pin << " as INPUT/OUTPUT."
-                << std::endl;
-    } else if constexpr (direction == Direction::OUTPUT) {
-      std::cout << "Configuring GPIO pin " << pin << " as OUTPUT." << std::endl;
-    } else {
-      static_assert(direction != Direction::INVALID,
-                    "Invalid GPIO direction specified.");
+
+    static void setValue(Type value_) {
+        static_assert(enabled, "GPIO pin is disabled.");
+        using enum api::gpio::Direction;
+        static_assert(direction == OUTPUT || direction == INPUT_OUTPUT, "GPIO pin is disabled.");
+
+        std::cout << "[linux_test] Writing " << value_ << " -> GPIO " << pin << std::endl;
+        SimulatedGpio::value = value_;
     }
-  }
-
-  static const void setHigh() {
-    std::cout << "Setting GPIO pin " << pin << " high." << std::endl;
-  }
-
-  static const void setLow() {
-    std::cout << "Setting GPIO pin " << pin << " low." << std::endl;
-  }
 };
-} // namespace treadmill_hack::platform::linux_test::gpio
+
+using BuildInLed = platform::linux_test::gpio::SimulatedGpio<1, api::gpio::Direction::OUTPUT, bool>;
+
+} // namespace platform::linux_test::gpio
+} // namespace treadmill_hack

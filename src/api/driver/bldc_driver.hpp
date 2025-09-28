@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/gpio.hpp"
+#include "api/gpio.hpp"
 
 namespace treadmill_hack::bldc_driver {
 class BldcDriver {

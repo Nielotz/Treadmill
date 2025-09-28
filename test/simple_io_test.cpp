@@ -1,19 +1,15 @@
-#include "src/platform/platform.hpp"
-#include <thread>
-#include <chrono>
 #include <iostream>
+#include <thread>
 
-int main() {
-    using namespace std::chrono_literals;
-    std::cout << "Blinking LED (simulated)..." << std::endl;
-    for (int i = 0; i < 5; ++i) {
-        treadmill_hack::platform::linux_test::config::BuiltinLed::setHigh();
-        std::cout << "LED ON" << std::endl;
-        std::this_thread::sleep_for(500ms);
-        treadmill_hack::platform::linux_test::config::BuiltinLed::setLow();
-        std::cout << "LED OFF" << std::endl;
-        std::this_thread::sleep_for(500ms);
-    }
-    std::cout << "Blink test complete." << std::endl;
-    return 0;
+#include <catch2/catch_test_macros.hpp>
+
+#include "api/config.hpp"
+
+TEST_CASE("LED control compiles and can be called", "[io]") {
+    using led = treadmill_hack::api::config::BuildInLed;
+    led::setValue(false);
+    // REQUIRE(led::isHigh(), "LED should be set high" );
+    led::setValue(true);
+    // REQUIRE(led::isLow(), "LED should be set low" );
+    SUCCEED();
 }
