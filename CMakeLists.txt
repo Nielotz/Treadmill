@@ -66,32 +66,45 @@ if(PLATFORM STREQUAL "pico2w")
 
     pico_add_extra_outputs(TreadmillHack)
 elseif(PLATFORM STREQUAL "linux_test")
-    # Linux-specific configuration
-
-    # Try to find system Catch2 first
-    find_package(Catch2 3 QUIET)
-
-    if(NOT Catch2_FOUND)
-        include(FetchContent)
-        FetchContent_Declare(
-            Catch2
-            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-            GIT_TAG        v3.9.0
-        )
-        FetchContent_MakeAvailable(Catch2)
-    endif()
+    message(STATUS "Building Linux test platform")
 
     add_executable(all_tests
         test/simple_io_test.cpp
         # test/another_test.cpp
     )
     target_compile_definitions(all_tests PRIVATE PLATFORM_LINUX_TEST)
-    target_include_directories(all_tests PRIVATE src)
+
+
+    # Prefer a locally cached/vendor'ed Catch2, otherwise fetch into a persistent folder
+    set(CATCH2_LOCAL_DIR "${CMAKE_SOURCE_DIR}/third_party/Catch2" CACHE PATH "Path to local Catch2 source")
+    if(EXISTS "${CATCH2_LOCAL_DIR}/CMakeLists.txt")
+        message(STATUS "Using local Catch2 at ${CATCH2_LOCAL_DIR}")
+        add_subdirectory("${CATCH2_LOCAL_DIR}" _deps/Catch2)
+    else()
+        find_package(Catch2 3 QUIET)
+        if(NOT Catch2_FOUND)
+            message(STATUS "Catch2 not found via find_package; fetching into a persistent cache (.deps)")
+            include(FetchContent)
+            # Keep fetched content across builds to avoid re-downloading
+            set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/.deps" CACHE PATH "Base dir for FetchContent" FORCE)
+            set(FETCHCONTENT_UPDATES_DISCONNECTED ON CACHE BOOL "Do not auto-update fetched content" FORCE)
+
+            FetchContent_Declare(
+                Catch2
+                GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+                GIT_TAG        v3.10.0
+            )
+            FetchContent_MakeAvailable(Catch2)
+        else()
+            message(STATUS "Found Catch2 locally: ${Catch2_DIR}")
+        endif()
+    endif()
+
+    if(TARGET Catch2::Catch2WithMain)
+        message(STATUS "Successfully fetched Catch2: Catch2::Catch2WithMain target is available")
+    else()
+        message(FATAL_ERROR "Failed to fetch Catch2 or Catch2::Catch2WithMain target not available")
+    endif()
     target_link_libraries(all_tests PRIVATE Catch2::Catch2WithMain)
 endif()
-
-# Add the standard include files to the build (common for both targets)
-target_include_directories(all_tests PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}
-)
 
